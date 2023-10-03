@@ -27,12 +27,22 @@ class AttendanceDataTable extends DataTable
      * @param \App\Models\Attendance $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
+    /*
     public function query(Attendance $model)
     {
         $data = Attendance::select('employees.id AS id','employees.name as employees.name','schedules.dates as dates','shifts.in as in','shifts.out as out','attendances.at_in as at_in','attendances.at_out as at_out','attendances.lembur as lembur')->join('employees', 'employees.id', '=', 'attendances.employees_id')->join('schedules', 'schedules.id', '=', 'attendances.schedules_id')->join('shifts','shifts.id','=','schedules.shifts_id')->where('status','!=','Belum Masuk') ;
         return $this->applyScopes($data);
+    }*/
+    public function query(Attendance $model)
+    {
+        $data = Attendance::select('employees.id AS employees.id','employees.name as employees.name','schedules.dates as schedules.dates','shifts.in as shifts.in','shifts.out as shifts.out','attendances.at_in as at_in','attendances.at_out as at_out','attendances.lembur')
+            ->join('employees', 'employees.id', '=', 'attendances.employees_id')
+            ->join('schedules', 'schedules.id', '=', 'attendances.schedules_id')
+            ->join('shifts','shifts.id','=','schedules.shifts_id')
+            ->where('status','!=','Belum Masuk')->whereBetween('schedules.dates', [$this->attributes['from'], $this->attributes['to']]);
+        return $this->applyScopes($data);
     }
-
+    
     /**
      * Optional method if you want to use html builder.
      *
@@ -42,6 +52,7 @@ class AttendanceDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('attendance-table')
+                    ->searching(false)
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -63,13 +74,13 @@ class AttendanceDataTable extends DataTable
     {
         return [
             
-            Column::make('id')
+            Column::make('employees.id')
               ->title('Id')
             ->searchable(false),
             Column::make('employees.name')
               ->title('Nama')
-              ->searchable(true),
-            Column::make('dates')
+              ->searchable(false),
+            Column::make('schedules.dates')
               ->title('Tanggal')
         ->searchable(false),
             Column::make('at_in')

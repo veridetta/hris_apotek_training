@@ -83,9 +83,14 @@
                         <i class="ni ni-tv-2 "></i> {{ __('Dashboard') }}
                     </a>
                 </li>
+                <li class="nav-item  {{ (request()->is('attendance')) ? 'active': ''}}">
+                    <a class="nav-link" href="{{ route('attendance', ['from' => now()->toDateString(), 'to' => now()->toDateString()]) }}">
+                        <i class="fa fa-user-check "></i> {{ __('Laporan Kehadiran') }}
+                    </a>                    
+                </li>
                 <li class="nav-item  {{ (request()->is('report')) ? 'active': ''}}">
                     <a class="nav-link" href="{{ route('report',['month'=>Carbon::now()->month,'year'=>Carbon::now()->year]) }}">
-                        <i class="fa fa-money-bill"></i> {{ __('Laporan Gaji') }}
+                        <i class="fa fa-money-bill"></i> {{ __('Laporan Absensi') }}
                     </a>
                 </li>
                 @elseif (Auth::check() && Auth::user()->role === 'admin')
@@ -95,8 +100,8 @@
                     </a>
                 </li>
                 <li class="nav-item  {{ (request()->is('attendance')) ? 'active': ''}}">
-                    <a class="nav-link" href="{{ route('attendance') }}">
-                        <i class="fa fa-user-check "></i> {{ __('Kehadiran') }}
+                    <a class="nav-link" href="{{ route('attendance', ['from' => now()->toDateString(), 'to' => now()->toDateString()]) }}">
+                        <i class="fa fa-user-check "></i> {{ __('Laporan Kehadiran') }}
                     </a>
                 </li>
                 <li class="nav-item">

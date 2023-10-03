@@ -96,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('report/generate_payments', 'App\Http\Controllers\PaymentController@generate_payments')->name('generate_payments');
 		Route::get('pdf/{month}/{id}/{year}', [PaymentController::class, 'view'])->name('download_payments');
 		Route::get('get_pdf/{month}/{id}/{year}', [PaymentController::class, 'view'])->name('get_download_payments');
+		Route::get('attendance/{from}/{to}', 'App\Http\Controllers\AttendanceController@index')->name('attendance');
     });
 	
 	

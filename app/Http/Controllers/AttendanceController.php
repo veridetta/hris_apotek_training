@@ -25,10 +25,12 @@ class AttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(AttendanceDataTable $dataTable)
+    public function index(AttendanceDataTable $dataTable,Request $request)
     {
+        $from = $request->from;
+        $to = $request->to;
         $companies = Setting::first();
-        return $dataTable->render('layouts.attendances.index',['company'=>$companies]);
+        return $dataTable->with('from',$from)->with('to',$to)->render('layouts.attendances.index',['company'=>$companies]);
     }
 
     /**

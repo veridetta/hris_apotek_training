@@ -9,7 +9,7 @@
                     <div class="card-header bg-transparent">
                       <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">Table Pembayaran Gaji</h3>
+                                <h3 class="mb-0">@if (Auth::check() && Auth::user()->role === 'owner') Laporan Absensi @else Table Pembayaran Gaji @endif </h3>
                             </div>
                             <div class="col-4 text-right">
                               <div class="d-flex flex-row">
@@ -29,24 +29,26 @@
                                   @endif>{{$i}}</option>
                                   @endfor
                                 </select>
-                                <a class="btn btn-sm btn-primary" onClick="ubah()" href="javascript:void(0)">Ubah</a>
+                                <a class="btn btn-sm btn-primary" onClick="ubah()" href="javascript:void(0)">Filter</a>
                               </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                      <table class="table table-bordered table-striped table-responsive">
+                      <table class="table table-bordered table-striped @if (Auth::check() && Auth::user()->role === 'admin') table-responsive @endif ">
                         <thead class="table-primary">
                           <tr>
                             <td class="font-weight-bold">No</td>
                             <td class="font-weight-bold">Nama</td>
                             <td class="font-weight-bold">Jabatan</td>
+                            @if (Auth::check() && Auth::user()->role === 'admin')
                             <td class="font-weight-bold">Pokok</td>
                             <td class="font-weight-bold">Uang Makan</td>
                             <td class="font-weight-bold">Transport</td>
                             <td class="font-weight-bold">Lembur</td>
                             <td class="font-weight-bold">Potongan</td>
                             <td class="font-weight-bold">Total</td>
+                            @endif
                             <td class="font-weight-bold">Aksi</td>
                           </tr>
                         </thead>
@@ -63,6 +65,7 @@
                             <td>{{$no}}</td>
                             <td>{{$employee->name}}</td>
                             <td>{{$employee->jabatan}}</td>
+                            @if (Auth::check() && Auth::user()->role === 'admin')
                             <td>@currency($employee->salary)</td>
                             @if(empty($payment))
                             <td>-</td>
@@ -78,6 +81,9 @@
                             <td>@currency($payment->potongan)</td>
                             <td>@currency($payment->payment)</td>
                             <td><a onClick="validasi({{$employee->id}})" href="javascript:void(0)" class="btn btn-sm btn-success">@if (Auth::check() && Auth::user()->role === 'owner')Lihat @else Validasi @endif </a>@if (Auth::check() && Auth::user()->role === 'admin') <a href="javascript:void(0)" class="btn btn-danger btn-sm" onClick="deleteFunc({{ $payment->id }})"><i class="fas fa-trash"></i></a>@endif</td>
+                            @endif
+                            @else
+                            <td><a onClick="validasi({{$employee->id}})" href="javascript:void(0)" class="btn btn-sm btn-success">@if (Auth::check() && Auth::user()->role === 'owner')Lihat @endif </a></td>
                             @endif
                           </tr>
                           @endforeach

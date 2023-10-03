@@ -12,8 +12,8 @@
                                 <h3 class="mb-0">Detail Kehadiran</h3>
                             </div>
                             <div class="col-4 text-right">
-                              @if (Auth::check() && Auth::user()->role === 'admin')<a class="btn btn-sm btn-primary" onClick="addFunc({{request()->id}},{{request()->month}},{{request()->year}})" href="javascript:void(0)">Validasi Sekarang</a>@endif<a class="btn btn-sm btn-warning"  href="{{ url('pdf/'.request()->month.'/'.request()->id.'/'.request()->year) }}" target="_blank">Cetak Slip</a>
-                                <p><small>*Wajib validasi data</small></p>
+                              @if (Auth::check() && Auth::user()->role === 'admin')<a class="btn btn-sm btn-primary" onClick="addFunc({{request()->id}},{{request()->month}},{{request()->year}})" href="javascript:void(0)">Validasi Sekarang</a><a class="btn btn-sm btn-warning"  href="{{ url('pdf/'.request()->month.'/'.request()->id.'/'.request()->year) }}" target="_blank">Cetak Slip</a>
+                                <p><small>*Wajib validasi data</small></p>@endif
                             </div>
                         </div>
                     </div>
