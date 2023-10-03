@@ -34,13 +34,13 @@ class LoginController extends Controller
     {
         if ($user->isAdmin()) {
             // Pengguna dengan peran admin akan diarahkan ke halaman admin
-            return '/home';
+            return redirect('/home');
         } elseif ($user->isOwner()) {
             // Pengguna dengan peran user akan diarahkan ke halaman user
-            return '/home';
+            return redirect('/home');
         } else {
             // Pengguna dengan peran lain akan diarahkan ke halaman default
-            return '/';
+            return redirect('/');
         }
     }
     
