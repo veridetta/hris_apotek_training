@@ -12,6 +12,21 @@ namespace Yajra\DataTables\Html\Options\Plugins;
 trait AutoFill
 {
     /**
+     * Set autoFill option value.
+     * Enable and configure the AutoFill extension for DataTables.
+     *
+     * @param  bool|array  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/autoFill
+     */
+    public function autoFill(bool|array $value = true): static
+    {
+        $this->attributes['autoFill'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set autoFill alwaysAsk option value.
      *
      * @param  bool  $value
@@ -21,19 +36,6 @@ trait AutoFill
     public function autoFillAlwaysAsk(bool $value = true): static
     {
         return $this->autoFill(['alwaysAsk' => $value]);
-    }
-
-    /**
-     * Set autoFill option value.
-     * Enable and configure the AutoFill extension for DataTables.
-     *
-     * @param  array|bool  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/autoFill
-     */
-    public function autoFill(array|bool $value = true): static
-    {
-        return $this->setPluginAttribute('autoFill', $value);
     }
 
     /**
@@ -118,18 +120,5 @@ trait AutoFill
     public function autoFillVertical(bool $value = true): static
     {
         return $this->autoFill(['vertical' => $value]);
-    }
-
-    /**
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getAutoFill(string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes['autoFill'] ?? true;
-        }
-
-        return $this->attributes['autoFill'][$key] ?? false;
     }
 }

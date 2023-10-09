@@ -12,6 +12,20 @@ namespace Yajra\DataTables\Html\Options\Plugins;
 trait Responsive
 {
     /**
+     * Set responsive option value.
+     *
+     * @param  bool|array  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/responsive
+     */
+    public function responsive(bool|array $value = true): static
+    {
+        $this->attributes['responsive'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set responsive breakpoints option value.
      *
      * @param  array  $value
@@ -24,15 +38,15 @@ trait Responsive
     }
 
     /**
-     * Set responsive option value.
+     * Set responsive details option value.
      *
-     * @param  array|bool  $value
+     * @param  bool|array  $value
      * @return $this
-     * @see https://datatables.net/reference/option/responsive
+     * @see https://datatables.net/reference/option/responsive.details
      */
-    public function responsive(array|bool $value = true): static
+    public function responsiveDetails(bool|array $value): static
     {
-        return $this->setPluginAttribute('responsive', $value);
+        return $this->responsive(['details' => $value]);
     }
 
     /**
@@ -45,25 +59,6 @@ trait Responsive
     public function responsiveDetailsDisplay(array|string $value): static
     {
         return $this->responsiveDetails(['display' => $value]);
-    }
-
-    /**
-     * Set responsive details option value.
-     *
-     * @param  bool|array  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/responsive.details
-     */
-    public function responsiveDetails(bool|array $value): static
-    {
-        $responsive = (array) $this->getResponsive();
-        if (is_array($value)) {
-            $responsive['details'] = array_merge((array) ($responsive['details'] ?? []), $value);
-        } else {
-            $responsive['details'] = $value;
-        }
-
-        return $this->responsive($responsive);
     }
 
     /**
@@ -112,18 +107,5 @@ trait Responsive
     public function responsiveOrthogonal(string $value): static
     {
         return $this->responsive(['orthogonal' => $value]);
-    }
-
-    /**
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getResponsive(string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes['responsive'] ?? true;
-        }
-
-        return $this->attributes['responsive'][$key] ?? false;
     }
 }

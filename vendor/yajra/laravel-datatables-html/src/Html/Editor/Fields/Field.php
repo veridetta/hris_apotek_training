@@ -4,7 +4,8 @@ namespace Yajra\DataTables\Html\Editor\Fields;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\Str;
@@ -109,12 +110,12 @@ class Field extends Fluent
     /**
      * Get options from a model.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder|class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  class-string|\Illuminate\Database\Eloquent\Builder  $model
      * @param  string  $value
      * @param  string  $key
      * @return $this
      */
-    public function modelOptions(Builder|string $model, string $value, string $key = 'id'): static
+    public function modelOptions($model, string $value, string $key = 'id'): static
     {
         return $this->options(
             Options::model($model, $value, $key)
@@ -190,11 +191,11 @@ class Field extends Fluent
     /**
      * Set field default value.
      *
-     * @param  float|bool|int|string|array  $value
+     * @param  float|bool|int|string  $value
      * @return $this
      * @see https://editor.datatables.net/reference/option/fields.def
      */
-    public function default(float|bool|int|string|array $value): static
+    public function default(float|bool|int|string $value): static
     {
         $this->attributes['def'] = $value;
 
@@ -322,11 +323,7 @@ class Field extends Fluent
      */
     public function opts(array $value): static
     {
-        if (! isset($this->attributes['opts'])) {
-            $this->attributes['opts'] = $value;
-        } else {
-            $this->attributes['opts'] = array_merge((array) $this->attributes['opts'], $value);
-        }
+        $this->attributes['opts'] = $value;
 
         return $this;
     }
@@ -341,14 +338,8 @@ class Field extends Fluent
      */
     public function attr(string $attribute, int|bool|string $value): static
     {
-        if (! isset($this->attributes['attr'])) {
-            $this->attributes['attr'] = [];
-        }
-
-        $attributes = (array) $this->attributes['attr'];
-        $attributes[$attribute] = $value;
-
-        $this->attributes['attr'] = $attributes;
+        // @phpstan-ignore-next-line
+        $this->attributes['attr'][$attribute] = $value;
 
         return $this;
     }
@@ -359,19 +350,5 @@ class Field extends Fluent
     public function getType(): string
     {
         return $this->type;
-    }
-
-    /**
-     * Replace null values with the field's default on edit.
-     *
-     * @param  bool  $value
-     * @return $this
-     * @see https://editor.datatables.net/reference/option/fields.nullDefault
-     */
-    public function nullDefault(bool $value = true): static
-    {
-        $this->attributes['nullDefault'] = $value;
-
-        return $this;
     }
 }

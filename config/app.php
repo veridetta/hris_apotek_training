@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
+        Yajra\DataTables\HtmlServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         //Maatwebsite\Excel\ExcelServiceProvider::class,
     ],

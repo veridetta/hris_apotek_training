@@ -12,6 +12,20 @@ namespace Yajra\DataTables\Html\Options\Plugins;
 trait RowGroup
 {
     /**
+     * Set rowGroup option value.
+     *
+     * @param  bool|array  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/rowGroup
+     */
+    public function rowGroup(bool|array $value = true): static
+    {
+        $this->attributes['rowGroup'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set rowGroup className option value.
      *
      * @param  string  $value
@@ -21,18 +35,6 @@ trait RowGroup
     public function rowGroupUpdate(string $value = 'group'): static
     {
         return $this->rowGroup(['className' => $value]);
-    }
-
-    /**
-     * Set rowGroup option value.
-     *
-     * @param  array|bool  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/rowGroup
-     */
-    public function rowGroup(array|bool $value = true): static
-    {
-        return $this->setPluginAttribute('rowGroup', $value);
     }
 
     /**
@@ -117,18 +119,5 @@ trait RowGroup
     public function rowGroupStartRender(string $value = null): static
     {
         return $this->rowGroup(['startRender' => $value]);
-    }
-
-    /**
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getRowGroup(string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes['rowGroup'] ?? true;
-        }
-
-        return $this->attributes['rowGroup'][$key] ?? false;
     }
 }

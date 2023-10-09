@@ -12,6 +12,21 @@ namespace Yajra\DataTables\Html\Options\Plugins;
 trait ColReorder
 {
     /**
+     * Set colReorder option value.
+     * Enable and configure the AutoFill extension for DataTables.
+     *
+     * @param  bool|array  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/colReorder
+     */
+    public function colReorder(bool|array $value = true): static
+    {
+        $this->attributes['colReorder'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set colReorder enable option value.
      *
      * @param  bool  $value
@@ -21,19 +36,6 @@ trait ColReorder
     public function colReorderEnable(bool $value = true): static
     {
         return $this->colReorder(['enable' => $value]);
-    }
-
-    /**
-     * Set colReorder option value.
-     * Enable and configure the AutoFill extension for DataTables.
-     *
-     * @param  array|bool  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/colReorder
-     */
-    public function colReorder(array|bool $value = true): static
-    {
-        return $this->setPluginAttribute('colReorder', $value);
     }
 
     /**
@@ -82,18 +84,5 @@ trait ColReorder
     public function colReorderRealtime(bool $value = true): static
     {
         return $this->colReorder(['realtime' => $value]);
-    }
-
-    /**
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getColReorder(string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes['colReorder'] ?? true;
-        }
-
-        return $this->attributes['colReorder'][$key] ?? false;
     }
 }

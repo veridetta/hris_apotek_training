@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "81e1bc5fc3283d81fbbf675cca8939e2",
+    "content-hash": "5aa62e71e8cfa9481ae6ea73db2cc031",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -7657,16 +7657,16 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v9.3.2",
+            "version": "v9.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "7190cfdff062a0ad5f273063fde58f01e1c5c597"
+                "reference": "30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/7190cfdff062a0ad5f273063fde58f01e1c5c597",
-                "reference": "7190cfdff062a0ad5f273063fde58f01e1c5c597",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6",
+                "reference": "30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6",
                 "shasum": ""
             },
             "require": {
@@ -7715,7 +7715,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-html/issues",
-                "source": "https://github.com/yajra/laravel-datatables-html/tree/v9.3.2"
+                "source": "https://github.com/yajra/laravel-datatables-html/tree/v9.0.0"
             },
             "funding": [
                 {
@@ -7727,7 +7727,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-07-04T11:29:01+00:00"
+            "time": "2022-05-07T16:19:45+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",

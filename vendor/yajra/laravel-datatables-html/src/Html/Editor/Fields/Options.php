@@ -33,7 +33,7 @@ class Options extends Collection
     /**
      * Get options from a model.
      *
-     * @param  class-string<Model>|\Illuminate\Database\Eloquent\Builder  $model
+     * @param  class-string|\Illuminate\Database\Eloquent\Builder  $model
      * @param  string  $value
      * @param  string  $key
      * @return Collection
@@ -71,15 +71,13 @@ class Options extends Collection
     ): Collection {
         $query = DB::connection($connection)
                    ->table($table)
-                   ->select("$value as label", "$key as value");
+                   ->select("{$value} as label", "$key as value");
 
         if (is_callable($callback)) {
             $callback($query);
         }
 
-        return $query->get()->map(function ($row) {
-            return (array) $row;
-        });
+        return $query->get();
     }
 
     /**

@@ -15,6 +15,10 @@ class Setting extends Model
         'leader',
         'address',
         'logo',
-        'ttd'
+        'ttd',
+        'lokasi',
+        'lat',
+        'lng',
+        'radius',
     ];
 }

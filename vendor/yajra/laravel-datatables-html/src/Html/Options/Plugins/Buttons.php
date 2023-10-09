@@ -3,10 +3,13 @@
 namespace Yajra\DataTables\Html\Options\Plugins;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Yajra\DataTables\Html\Button;
 
 /**
  * DataTables - Buttons plugin option builder.
+ *
+ * @template TKey of array-key
+ * @template TValue
+ * @property array<TKey, TValue> $attributes
  *
  * @see https://datatables.net/extensions/buttons/
  * @see https://datatables.net/reference/option/buttons
@@ -22,8 +25,6 @@ trait Buttons
      */
     public function buttons(...$buttons): static
     {
-        $this->attributes['buttons'] = [];
-
         if (is_array($buttons[0])) {
             $buttons = $buttons[0];
         }
@@ -33,26 +34,5 @@ trait Buttons
         }
 
         return $this;
-    }
-
-    /**
-     * @param  \Yajra\DataTables\Html\Button  $button
-     * @return $this
-     */
-    public function addButton(Button $button): static
-    {
-        $this->attributes['buttons'][] = $button->toArray();
-
-        return $this;
-    }
-
-    /**
-     * Get builder buttons.
-     *
-     * @return array
-     */
-    public function getButtons(): array
-    {
-        return $this->attributes['buttons'] ?? [];
     }
 }

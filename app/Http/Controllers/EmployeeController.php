@@ -133,4 +133,26 @@ class EmployeeController extends Controller
       
         return Response()->json($company);
     }
+    public function updateEmployee(Request $request, $id)
+    {
+        // Validasi data masukan jika diperlukan
+        $request->validate([
+            'facereq' => 'required', // Atur validasi sesuai kebutuhan Anda
+            'faceid' => 'required',
+        ]);
+
+        // Temukan karyawan berdasarkan ID
+        $employee = Employee::find($id);
+
+        if (!$employee) {
+            return response()->json(['message' => 'Employee not found'], 404);
+        }
+
+        // Perbarui data karyawan
+        $employee->facereq = $request->facereq;
+        $employee->faceid = $request->faceid;
+        $employee->save();
+
+        return response()->json(['message' => 'Employee data updated successfully']);
+    }
 }

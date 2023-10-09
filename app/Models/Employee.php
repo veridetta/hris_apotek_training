@@ -23,6 +23,8 @@ class Employee extends Authenticatable
         'name',
         'jk',
         'ttl',
+        'faceid',
+        'facereq',
     ];
     public function jabatans()
     {

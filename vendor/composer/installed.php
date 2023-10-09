@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '466f8b253cc7353cb336c113780556fc7e9879bb',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '201b6e023ba73bc8e56479e2cbcf710bcf813b9f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -446,9 +446,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '466f8b253cc7353cb336c113780556fc7e9879bb',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '201b6e023ba73bc8e56479e2cbcf710bcf813b9f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1587,9 +1587,9 @@
             'dev_requirement' => false,
         ),
         'yajra/laravel-datatables-html' => array(
-            'pretty_version' => 'v9.3.2',
-            'version' => '9.3.2.0',
-            'reference' => '7190cfdff062a0ad5f273063fde58f01e1c5c597',
+            'pretty_version' => 'v9.0.0',
+            'version' => '9.0.0.0',
+            'reference' => '30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6',
             'type' => 'library',
             'install_path' => __DIR__ . '/../yajra/laravel-datatables-html',
             'aliases' => array(),

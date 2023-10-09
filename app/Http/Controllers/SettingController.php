@@ -43,8 +43,12 @@ class SettingController extends Controller
             'company' => 'required',
             'leader' => 'required',
             'address' => 'required',
-            'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'ttd' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'lat_select' => 'required',
+            'lng_select' => 'required',
+            'radius_absensi' => 'required',
+            'lokasi_select' => 'required',
+            'logo' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'ttd' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
   
         if ($validator->fails()) {
@@ -52,23 +56,78 @@ class SettingController extends Controller
                         'error' => $validator->errors()->all()
                     ]);
         }
-        $path_logo = time().'.logo.'.$request->logo->extension();
-        // Public Folder
-        $request->logo->move(public_path('images'), $path_logo);
-        
-        $path_ttd = time().'.ttd.'.$request->ttd->extension();
-        // Public Folder
-        $request->ttd->move(public_path('images'), $path_ttd);
+        //check logo dan ttd ada tidak
+        if($request->logo){
+            $path_logo = time().'.logo.'.$request->logo->extension();
+            // Public Folder
+            $request->logo->move(public_path('images'), $path_logo);
+        }else{
+            $path_logo = $request->logo_old;
+        }
+        if($request->ttd){
+            $path_ttd = time().'.ttd.'.$request->ttd->extension();
+            // Public Folder
+            $request->ttd->move(public_path('images'), $path_ttd);
+        }else{
+            $path_ttd = $request->ttd_old;
+        }
+        //if requst logo dan ttd ada
+        if($request->logo && $request->ttd){
+            $setting=Setting::updateOrCreate([
+                'id' => $request->id
+               ],[
+                'company' => $request->company,
+                'leader' => $request->leader,
+                'address' => $request->address,
+                'lat' => $request->lat_select,
+                'lng' => $request->lng_select,
+                'radius' => $request->radius_absensi,
+                'lokasi' => $request->lokasi_select,
+                'logo' => $path_logo,
+                'ttd' => $path_ttd,
+            ]);
+        }else if($request->logo){
+            $setting=Setting::updateOrCreate([
+                'id' => $request->id
+               ],[
+                'company' => $request->company,
+                'leader' => $request->leader,
+                'address' => $request->address,
+                'lat' => $request->lat_select,
+                'lng' => $request->lng_select,
+                'radius' => $request->radius_absensi,
+                'lokasi' => $request->lokasi_select,
+                'logo' => $path_logo,
+            ]);
+        }else if($request->ttd){
+            $setting=Setting::updateOrCreate([
+                'id' => $request->id
+               ],[
+                'company' => $request->company,
+                'leader' => $request->leader,
+                'address' => $request->address,
+                'lat' => $request->lat_select,
+                'lng' => $request->lng_select,
+                'radius' => $request->radius_absensi,
+                'lokasi' => $request->lokasi_select,
+                'ttd' => $path_ttd,
+            ]);
+        }else{
+            $setting=Setting::updateOrCreate([
+                'id' => $request->id
+               ],[
+                'company' => $request->company,
+                'leader' => $request->leader,
+                'address' => $request->address,
+                'lat' => $request->lat_select,
+                'lng' => $request->lng_select,
+                'radius' => $request->radius_absensi,
+                'lokasi' => $request->lokasi_select,
+            ]);
+        }
 
-        $employee=Setting::updateOrCreate([
-            'id' => $request->id
-           ],[
-            'company' => $request->company,
-            'leader' => $request->leader,
-            'address' => $request->address,
-            'logo' => $path_logo,
-            'ttd' => $path_ttd,
-        ]);
+
+        
         //return view('layouts.employees.index',['success' => 'Post created successfully.']);
         return redirect('setting')->with(['success', 'Berhasil menyimpan data']);
     }

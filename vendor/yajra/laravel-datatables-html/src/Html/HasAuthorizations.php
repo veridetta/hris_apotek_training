@@ -30,20 +30,7 @@ trait HasAuthorizations
             return static::make($options);
         }
 
-        return app(static::class)->authorized(false);
-    }
-
-    /**
-     * Set authorization status of the button.
-     *
-     * @param  callable|bool  $bool
-     * @return static
-     */
-    public function authorized(callable|bool $bool): static
-    {
-        $this->authorized = (bool) value($bool);
-
-        return $this;
+        return static::make([])->authorized(false);
     }
 
     /**
@@ -88,7 +75,20 @@ trait HasAuthorizations
             return static::make($options);
         }
 
-        return app(static::class)->authorized(false);
+        return static::make([])->authorized(false);
+    }
+
+    /**
+     * Set authorization status of the button.
+     *
+     * @param  callable|bool  $bool
+     * @return static
+     */
+    public function authorized(callable|bool $bool): static
+    {
+        $this->authorized = (bool) value($bool);
+
+        return $this;
     }
 
     /**
@@ -98,20 +98,10 @@ trait HasAuthorizations
      */
     public function toArray(): array
     {
-        if (! $this->isAuthorized()) {
-            return [];
+        if ($this->authorized) {
+            return parent::toArray();
         }
 
-        return parent::toArray();
-    }
-
-    /**
-     * Check if instance is authorized
-     *
-     * @return bool
-     */
-    public function isAuthorized(): bool
-    {
-        return $this->authorized;
+        return [];
     }
 }

@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Options;
 trait HasOptions
 {
     use Options\HasFeatures;
-    use Options\HasAjax;
+    use Options\HasData;
     use Options\HasCallbacks;
     use Options\HasColumns;
     use Options\HasInternationalisation;
@@ -367,35 +367,5 @@ trait HasOptions
         $this->attributes['tabIndex'] = $value;
 
         return $this;
-    }
-
-    /**
-     * @param  string  $key
-     * @param  array|bool  $value
-     * @return $this
-     */
-    public function setPluginAttribute(string $key, array|bool $value): static
-    {
-        if (is_array($value)) {
-            $this->attributes[$key] = array_merge((array) ($this->attributes[$key] ?? []), $value);
-        } else {
-            $this->attributes[$key] = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param  string  $plugin
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getPluginAttribute(string $plugin, string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes[$plugin] ?? true;
-        }
-
-        return $this->attributes[$plugin][$key] ?? false;
     }
 }

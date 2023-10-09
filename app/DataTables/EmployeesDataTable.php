@@ -8,6 +8,7 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
+
 class EmployeesDataTable extends DataTable
 {
     /**
@@ -20,7 +21,15 @@ class EmployeesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'layouts.employees.action');
+            ->addColumn('action', 'layouts.employees.action')
+            ->editColumn('facereq', function ($data) {
+                if ($data->facereq === null || $data->facereq === "") {
+                    return '<a href="javascript:void(0)" onClick="addFace(\''.$data->id.'\', \''.$data->name.'\')" class="btn btn-sm btn-primary">Tambah Wajah</a>';
+                } else {
+                    return '<a href="#" class="btn btn-sm btn-secondary">Terdaftar</a>';
+                }
+            })->rawColumns(['action', 'facereq']);
+        
     }
 
     /**
@@ -32,7 +41,7 @@ class EmployeesDataTable extends DataTable
     public function query(Employee $model)
     {
         //return $model->newQuery()->select('*');;
-        $data = Employee::select('employees.id','employees.name','employees.jk','employees.ttl','jabatans.jabatan')->join('jabatans', 'jabatans.id', '=', 'employees.jabatans_id') ;
+        $data = Employee::select('employees.id','employees.name','employees.facereq','employees.jk','employees.ttl','jabatans.jabatan')->join('jabatans', 'jabatans.id', '=', 'employees.jabatans_id') ;
         return $this->applyScopes($data);
     }
 
@@ -50,7 +59,6 @@ class EmployeesDataTable extends DataTable
                     ->orderBy(1)
                     ->dom('Bfrtip')
                     ->buttons(
-                    
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),
@@ -71,14 +79,14 @@ class EmployeesDataTable extends DataTable
             Column::make('jabatan')->searchable(false),
             Column::make('jk')->searchable(false),
             Column::make('ttl')->searchable(false),
+            Column::make('facereq', 'Daftar Wajah')->searchable(false),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->addClass('text-center'),
+                  ->addClass('text-center'),   
         ];
     }
-
     /**
      * Get filename for export.
      *

@@ -88,6 +88,7 @@
 @endsection
 
 @push('js')
+<script src="https://cdn.faceio.net/fio.js"></script>
 {!! $dataTable->scripts() !!}
 <script type="text/javascript">
 /*
@@ -174,5 +175,79 @@
       });
   
   });
+  function addFace(id,name){
+    const faceio = new faceIO("fioaa978"); // Replace with your application Public ID
+    // Start the facial enrollment process
+    updateEmployeeData(id, name);
+		
+    
+  };
+  function asal(){
+    faceio.enroll({
+			"locale": "auto", // Default user locale
+			"userConsent": false, // Set to true if you have already collected user consent
+			"payload": {
+				/* The payload we want to associate with this particular user
+				* which is forwarded back to us on each of his future authentication...
+				*/
+				"whoami": id, // Example of dummy ID linked to this particular user
+				"email": "john.doe@example.com",
+        "name" : name,
+			}
+		}).then(userInfo => {
+			// User Successfully Enrolled!
+			alert(
+			`User Successfully Enrolled! Details:
+			Unique Facial ID: ${userInfo.facialId}
+			Enrollment Date: ${userInfo.timestamp}
+			Gender: ${userInfo.details.gender}
+			Age Approximation: ${userInfo.details.age}`
+			);
+			console.log(userInfo);
+      updateEmployeeData(id, userInfo.facialId);
+			// handle success, save the facial ID, redirect to dashboard...
+			//
+			// faceio.restartSession() let you enroll another user again (without reloading the entire HTML page)
+		}).catch(errCode => {
+			// handle enrollment failure. Visit:
+			// https://faceio.net/integration-guide#error-codes
+			// for the list of all possible error codes
+			handleError(errCode);
+			
+			// If you want to restart the session again without refreshing the current TAB. Just call:
+			faceio.restartSession();
+			// restartSession() let you enroll the same or another user again (in case of failure) without refreshing the entire page.
+		});
+  }
+  function updateEmployeeData(employeeId, facialId) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // Kirim permintaan pembaruan ke server Anda, contoh menggunakan fetch
+    fetch(`/update-employee/${employeeId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        body: JSON.stringify({
+            facereq: "sudah", // Atur sesuai kebutuhan Anda
+            faceid: facialId,
+        }),
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // Tangani respons dari server jika diperlukan
+            console.log(data);
+            location.reload();
+        })
+        .catch((error) => {
+            // Tangani kesalahan jika terjadi kesalahan jaringan atau lainnya
+            console.error("There was a problem with the fetch operation:", error);
+        });
+  };
 </script>
 @endpush

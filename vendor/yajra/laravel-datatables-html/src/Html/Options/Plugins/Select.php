@@ -13,6 +13,20 @@ use Yajra\DataTables\Html\Builder;
 trait Select
 {
     /**
+     * Set select option value.
+     *
+     * @param  bool|array  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/select
+     */
+    public function select(bool|array $value = true): static
+    {
+        $this->attributes['select'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set select blurable option value.
      *
      * @param  bool  $value
@@ -21,7 +35,9 @@ trait Select
      */
     public function selectBlurable(bool $value = true): static
     {
-        return $this->select(['blurable' => $value]);
+        $this->attributes['select']['blurable'] = $value;
+
+        return $this;
     }
 
     /**
@@ -33,7 +49,9 @@ trait Select
      */
     public function selectClassName(string $value = 'selected'): static
     {
-        return $this->select(['className' => $value]);
+        $this->attributes['select']['className'] = $value;
+
+        return $this;
     }
 
     /**
@@ -62,7 +80,9 @@ trait Select
      */
     public function selectInfo(bool $value = true): static
     {
-        return $this->select(['info' => $value]);
+        $this->attributes['select']['info'] = $value;
+
+        return $this;
     }
 
     /**
@@ -74,7 +94,9 @@ trait Select
      */
     public function selectItems(string $value = 'row'): static
     {
-        return $this->select(['items' => $value]);
+        $this->attributes['select']['items'] = $value;
+
+        return $this;
     }
 
     /**
@@ -85,7 +107,9 @@ trait Select
      */
     public function selectItemsRow(): static
     {
-        return $this->select(['items' => Builder::SELECT_ITEMS_ROW]);
+        $this->attributes['select']['items'] = Builder::SELECT_ITEMS_ROW;
+
+        return $this;
     }
 
     /**
@@ -96,7 +120,9 @@ trait Select
      */
     public function selectItemsColumn(): static
     {
-        return $this->select(['items' => Builder::SELECT_ITEMS_COLUMN]);
+        $this->attributes['select']['items'] = Builder::SELECT_ITEMS_COLUMN;
+
+        return $this;
     }
 
     /**
@@ -107,7 +133,9 @@ trait Select
      */
     public function selectItemsCell(): static
     {
-        return $this->select(['items' => Builder::SELECT_ITEMS_CELL]);
+        $this->attributes['select']['items'] = Builder::SELECT_ITEMS_CELL;
+
+        return $this;
     }
 
     /**
@@ -119,7 +147,9 @@ trait Select
      */
     public function selectSelector(string $value = 'td'): static
     {
-        return $this->select(['selector' => $value]);
+        $this->attributes['select']['selector'] = $value;
+
+        return $this;
     }
 
     /**
@@ -131,7 +161,9 @@ trait Select
      */
     public function selectStyle(string $value = 'os'): static
     {
-        return $this->select(['style' => $value]);
+        $this->attributes['select']['style'] = $value;
+
+        return $this;
     }
 
     /**
@@ -142,7 +174,9 @@ trait Select
      */
     public function selectStyleApi(): static
     {
-        return $this->select(['style' => Builder::SELECT_STYLE_API]);
+        $this->attributes['select']['style'] = Builder::SELECT_STYLE_API;
+
+        return $this;
     }
 
     /**
@@ -153,19 +187,9 @@ trait Select
      */
     public function selectStyleSingle(): static
     {
-        return $this->select(['style' => Builder::SELECT_STYLE_SINGLE]);
-    }
+        $this->attributes['select']['style'] = Builder::SELECT_STYLE_SINGLE;
 
-    /**
-     * Set select option value.
-     *
-     * @param  array|bool  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/select
-     */
-    public function select(bool|array $value = true): static
-    {
-        return $this->setPluginAttribute('select', $value);
+        return $this;
     }
 
     /**
@@ -176,7 +200,9 @@ trait Select
      */
     public function selectStyleMulti(): static
     {
-        return $this->select(['style' => Builder::SELECT_STYLE_MULTI]);
+        $this->attributes['select']['style'] = Builder::SELECT_STYLE_MULTI;
+
+        return $this;
     }
 
     /**
@@ -187,7 +213,9 @@ trait Select
      */
     public function selectStyleOS(): static
     {
-        return $this->select(['style' => Builder::SELECT_STYLE_OS]);
+        $this->attributes['select']['style'] = Builder::SELECT_STYLE_OS;
+
+        return $this;
     }
 
     /**
@@ -198,19 +226,8 @@ trait Select
      */
     public function selectStyleMultiShift(): static
     {
-        return $this->select(['style' => Builder::SELECT_STYLE_MULTI_SHIFT]);
-    }
+        $this->attributes['select']['style'] = Builder::SELECT_STYLE_MULTI_SHIFT;
 
-    /**
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getSelect(string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes['select'] ?? true;
-        }
-
-        return $this->attributes['select'][$key] ?? false;
+        return $this;
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\FaceRecognitionController;
 use App\Models\Attendance;
 use App\Models\Shift;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('employee_store', 'App\Http\Controllers\EmployeeController@store')->name('employee_store');
 		Route::post('employee_edit', [EmployeeController::class, 'edit'])->name('employee_edit');;
 		Route::post('employee_delete', [EmployeeController::class, 'destroy'])->name('employee_delete');
+		Route::post('/update-employee/{id}', [EmployeeController::class, 'updateEmployee'])->name('employee.update');
 		//JABATAN
 		Route::get('jabatan', 'App\Http\Controllers\JabatanController@index')->name('jabatan');
 		Route::post('jabatan_store', 'App\Http\Controllers\JabatanController@store')->name('jabatan_store');
@@ -98,7 +100,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('get_pdf/{month}/{id}/{year}', [PaymentController::class, 'view'])->name('get_download_payments');
 		Route::get('attendance/{from}/{to}', 'App\Http\Controllers\AttendanceController@index')->name('attendance');
     });
-	
 	
 });
 

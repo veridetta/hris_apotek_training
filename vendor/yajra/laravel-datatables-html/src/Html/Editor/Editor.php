@@ -14,10 +14,6 @@ use Yajra\DataTables\Utilities\Helper;
  * @property string|array|null $ajax
  * @property array $fields
  * @property string|null $template
- * @property string $idSrc
- * @property string $display
- * @property string $scripts
- * @property array $formOptions
  */
 class Editor extends Fluent
 {
@@ -241,10 +237,6 @@ class Editor extends Fluent
      */
     public function toArray(): array
     {
-        if (! $this->isAuthorized()) {
-            return [];
-        }
-
         $array = parent::toArray();
 
         unset($array['events']);

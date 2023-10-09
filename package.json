@@ -17,6 +17,8 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "face-api.js": "^0.22.2",
+        "leaflet": "^1.9.4",
         "moment": "^2.29.4"
     }
 }

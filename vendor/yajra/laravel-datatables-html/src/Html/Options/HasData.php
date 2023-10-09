@@ -8,10 +8,17 @@ use Yajra\DataTables\Utilities\Helper;
 /**
  * DataTables - Data option builder.
  *
+ * @property \Illuminate\Contracts\Config\Repository $config
+ *
  * @see https://datatables.net/reference/option/
  */
-trait HasAjax
+trait HasData
 {
+    /**
+     * @var string|array
+     */
+    protected string|array $ajax = '';
+
     /**
      * Setup "ajax" parameter with POST method.
      *
@@ -21,7 +28,7 @@ trait HasAjax
     public function postAjax(array|string $attributes = ''): static
     {
         if (! is_array($attributes)) {
-            $attributes = ['url' => $attributes];
+            $attributes = ['url' => (string) $attributes];
         }
 
         unset($attributes['method']);
@@ -45,54 +52,13 @@ trait HasAjax
     }
 
     /**
-     * @param  string  $url
-     * @param  string  $formSelector
-     * @return $this
-     */
-    public function postAjaxWithForm(string $url, string $formSelector): static
-    {
-        $attributes = ['url' => $url];
-
-        Arr::set($attributes, 'type', 'POST');
-        Arr::set($attributes, 'headers.X-HTTP-Method-Override', 'GET');
-
-        $script = $this->getScriptWithFormSelector($formSelector);
-
-        $attributes['data'] = "function(data) { $script }";
-
-        return $this->ajax($attributes);
-    }
-
-    /**
-     * @param  string  $formSelector
-     * @return string
-     */
-    protected function getScriptWithFormSelector(string $formSelector): string
-    {
-        return <<<CDATA
-var formData = _.groupBy($("$formSelector").find("input, select").serializeArray(), function(d) { return d.name; } );
-$.each(formData, function(i, group){
-    if (group.length > 1) {
-        data[group[0].name] = [];
-        $.each(group, function(i, obj) {
-            data[obj.name].push(obj.value)
-        })
-    } else {
-        data[group[0].name] = group[0].value;
-    }
-});
-CDATA;
-    }
-
-    /**
      * Setup ajax parameter for datatables pipeline plugin.
      *
      * @param  string  $url
-     * @param  int  $pages
+     * @param  string  $pages
      * @return $this
-     * @see https://datatables.net/examples/server_side/pipeline.html
      */
-    public function pipeline(string $url, int $pages = 5): static
+    public function pipeline(string $url, string $pages): static
     {
         return $this->ajax("$.fn.dataTable.pipeline({ url: '$url', pages: $pages })");
     }
@@ -120,7 +86,14 @@ CDATA;
      */
     public function ajaxWithForm(string $url, string $formSelector): static
     {
-        return $this->minifiedAjax($url, $this->getScriptWithFormSelector($formSelector));
+        $script = <<<CDATA
+var formData = $("{$formSelector}").find("input, select").serializeArray();
+$.each(formData, function(i, obj){
+    data[obj.name] = obj.value;
+});
+CDATA;
+
+        return $this->minifiedAjax($url, $script);
     }
 
     /**
@@ -182,8 +155,8 @@ CDATA;
     {
         $script = '';
         foreach ($data as $key => $value) {
-            $dataValue = Helper::isJavascript($value, $key) ? $value : (is_string($value) ? "'$value'" : $value);
-            $script .= PHP_EOL."data.$key = $dataValue;";
+            $dataValue = Helper::isJavascript($value, $key) ? $value : "'{$value}'";
+            $script .= PHP_EOL."data.{$key} = {$dataValue};";
         }
 
         return $script;

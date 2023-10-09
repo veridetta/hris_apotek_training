@@ -8,14 +8,14 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\Html\Options\Plugins\SearchPanes;
 
 /**
- * @property array|string $data
+ * @property string $data
  * @property string $name
  * @property string $title
  * @property string $titleAttr
- * @property bool $orderable
- * @property bool $searchable
- * @property bool $printable
- * @property bool $exportable
+ * @property string $orderable
+ * @property string $searchable
+ * @property string $printable
+ * @property string $exportable
  * @property array|string $footer
  * @property array $attributes
  * @property string $render
@@ -34,14 +34,13 @@ use Yajra\DataTables\Html\Options\Plugins\SearchPanes;
 class Column extends Fluent
 {
     use SearchPanes;
-    use HasAuthorizations;
 
     /**
      * @param  array  $attributes
      */
     public function __construct($attributes = [])
     {
-        $attributes['title'] ??= self::titleFormat($attributes['data'] ?? '');
+        $attributes['title'] ??= self::titleFormat($attributes['data']);
         $attributes['orderable'] ??= true;
         $attributes['searchable'] ??= true;
         $attributes['exportable'] ??= true;
@@ -72,21 +71,7 @@ class Column extends Fluent
      */
     public static function titleFormat(string $value): string
     {
-        return Str::title(str_replace(['.', '_'], ' ', Str::snake($value)));
-    }
-
-    /**
-     * Set column title.
-     *
-     * @param  string  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/columns.title
-     */
-    public function title(string $value): static
-    {
-        $this->attributes['title'] = $value;
-
-        return $this;
+        return Str::title(str_replace('_', ' ', $value));
     }
 
     /**
@@ -134,21 +119,32 @@ class Column extends Fluent
     }
 
     /**
+     * Set column title.
+     *
+     * @param  string  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/columns.title
+     */
+    public function title(string $value): static
+    {
+        $this->attributes['title'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Make a new column instance.
      *
-     * @param  array|string  $data
+     * @param  string  $data
      * @param  string  $name
      * @return static
      */
-    public static function make(array|string $data = [], string $name = ''): static
+    public static function make(string $data, string $name = ''): static
     {
-        $attr = $data;
-        if (is_string($data)) {
-            $attr = [
-                'data' => $data,
-                'name' => $name ?: $data,
-            ];
-        }
+        $attr = [
+            'data' => $data,
+            'name' => $name ?: $data,
+        ];
 
         return new static($attr);
     }
@@ -315,12 +311,11 @@ class Column extends Fluent
     /**
      * Set column data option value.
      *
-     * @param  array|string  $value
+     * @param  string  $value
      * @return $this
      * @see https://datatables.net/reference/option/columns.data
-     * @see https://datatables.net/manual/data/orthogonal-data
      */
-    public function data(array|string $value): static
+    public function data(string $value): static
     {
         $this->attributes['data'] = $value;
 
@@ -404,7 +399,7 @@ class Column extends Fluent
      * @return $this
      * @see https://datatables.net/reference/option/columns.cellType
      */
-    public function cellType(string $value = 'th'): static
+    public function cellType(string $value): static
     {
         $this->attributes['cellType'] = $value;
 
@@ -604,10 +599,6 @@ class Column extends Fluent
      */
     public function toArray(): array
     {
-        if (! $this->isAuthorized()) {
-            return [];
-        }
-
         return Arr::except($this->attributes, [
             'printable',
             'exportable',

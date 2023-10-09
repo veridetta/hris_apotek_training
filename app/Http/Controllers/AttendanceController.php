@@ -140,13 +140,17 @@ class AttendanceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'rfid' => 'required',
+            'faceid' => 'required',
+            
         ]);
         if ($validator->fails()) {
             return response()->json([
                         'error' => $validator->errors()->all()
                     ]);
         }
-        $employee=Employee::where('rfid',$request->rfid)->get();
+        //$employee=Employee::where('rfid',$request->rfid)->get();
+        //employee where rfid dan faceid
+        $employee=Employee::where('rfid',$request->rfid)->where('faceid',$request->faceid)->get();
         if(!count($employee)){
             $status="Data tidak ditemukan";
             $response="error";

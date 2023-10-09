@@ -18,6 +18,7 @@ trait HasEditor
      *
      * @param  array|mixed  ...$editors
      * @return $this
+     * @throws \Exception
      * @see https://editor.datatables.net/
      */
     public function editors(...$editors): static
@@ -26,14 +27,8 @@ trait HasEditor
             $editors = $editors[0];
         }
 
-        $this->editors = [];
-
         foreach ($editors as $editor) {
-            if ($editor instanceof Editor) {
-                $this->editor($editor);
-            } else {
-                $this->editor(new Editor($editor));
-            }
+            $this->editor($editor);
         }
 
         return $this;
@@ -42,16 +37,38 @@ trait HasEditor
     /**
      * Integrate with DataTables Editor.
      *
-     * @param  Editor  $editor
+     * @param  Editor  $fields
      * @return $this
+     * @throws \Exception
      * @see https://editor.datatables.net/
      */
-    public function editor(Editor $editor): static
+    public function editor(Editor $fields): static
     {
         /** @var string $template */
         $template = $this->config->get('datatables-html.editor', 'datatables::editor');
 
         $this->setTemplate($template);
+
+        $editor = $this->newEditor($fields);
+
+        $this->editors[] = $editor;
+
+        return $this;
+    }
+
+    /**
+     * @param  array|Editor  $fields
+     * @return Editor
+     * @throws \Exception
+     */
+    protected function newEditor(Editor|array $fields): Editor
+    {
+        if ($fields instanceof Editor) {
+            $editor = $fields;
+        } else {
+            $editor = new Editor;
+            $editor->fields($fields);
+        }
 
         if (! $editor->table) {
             $editor->table('#'.$this->getTableAttribute('id'));
@@ -61,9 +78,7 @@ trait HasEditor
             $editor->ajax($this->getAjaxUrl());
         }
 
-        $this->editors[] = $editor;
-
-        return $this;
+        return $editor;
     }
 
     /**

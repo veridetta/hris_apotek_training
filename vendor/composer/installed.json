@@ -10522,17 +10522,17 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v9.3.2",
-            "version_normalized": "9.3.2.0",
+            "version": "v9.0.0",
+            "version_normalized": "9.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "7190cfdff062a0ad5f273063fde58f01e1c5c597"
+                "reference": "30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/7190cfdff062a0ad5f273063fde58f01e1c5c597",
-                "reference": "7190cfdff062a0ad5f273063fde58f01e1c5c597",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6",
+                "reference": "30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6",
                 "shasum": ""
             },
             "require": {
@@ -10545,7 +10545,7 @@
                 "nunomaduro/larastan": "^2.1",
                 "orchestra/testbench": "^7.3"
             },
-            "time": "2022-07-04T11:29:01+00:00",
+            "time": "2022-05-07T16:19:45+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -10583,7 +10583,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-html/issues",
-                "source": "https://github.com/yajra/laravel-datatables-html/tree/v9.3.2"
+                "source": "https://github.com/yajra/laravel-datatables-html/tree/v9.0.0"
             },
             "funding": [
                 {

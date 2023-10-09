@@ -20,24 +20,15 @@ class Select2 extends Select
 
     /**
      * @param  string  $value
-     * @return $this
-     */
-    public function placeholder(string $value): static
-    {
-        return $this->optsPlaceholder($value);
-    }
-
-    /**
-     * @param  string  $text
      * @param  string  $id
      * @return $this
      */
-    public function optsPlaceholder(string $text = '', string $id = ''): static
+    public function optsPlaceholder(string $value = '', string $id = 'id'): static
     {
         return $this->opts([
             'placeholder' => [
                 'id' => $id,
-                'text' => $text,
+                'text' => $value,
             ],
         ]);
     }
@@ -50,13 +41,11 @@ class Select2 extends Select
      */
     public function ajax(array|string $value): static
     {
-        $ajax = $this->opts['ajax'] ?? [];
-
         if (is_array($value)) {
-            return $this->opts(['ajax' => array_merge($ajax, $value)]);
+            return $this->opts(['ajax' => $value]);
         }
 
-        return $this->opts(['ajax' => array_merge($ajax, ['url' => $value])]);
+        return $this->opts(['ajax' => ['url' => $value]]);
     }
 
     /**
@@ -93,7 +82,7 @@ class Select2 extends Select
             $script = 'function(params) {';
             foreach ($data as $key => $value) {
                 $value = json_encode($value);
-                $script .= " params.$key = $value; ";
+                $script .= " params.{$key} = {$value}; ";
             }
             $script .= 'return params; }';
 
@@ -108,15 +97,14 @@ class Select2 extends Select
      *
      * @param  string  $display
      * @param  string  $id
-     * @param  string  $wrap
      * @return $this
      */
-    public function processPaginatedResults(string $display = 'text', string $id = 'id', string $wrap = 'results'): static
+    public function processPaginatedResults(string $display = 'text', string $id = 'id'): static
     {
         $script = 'function(data, params) { ';
         $script .= 'params.page = params.page || 1; ';
-        $script .= "data.$wrap.map(function(e) { e.text = e.$display; e.id = e.$id; return e; }); ";
-        $script .= "return { results: data.$wrap, pagination: { more: data.meta.current_page < data.meta.last_page } };";
+        $script .= "data.data.map(function(e) { e.text = e.{$display}; e.id = e.{$id}; return e; }); ";
+        $script .= 'return { results: data.data, pagination: { more: data.current_page < data.last_page } };';
         $script .= '}';
 
         return $this->processResults($script);

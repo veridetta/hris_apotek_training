@@ -12,6 +12,20 @@ namespace Yajra\DataTables\Html\Options\Plugins;
 trait KeyTable
 {
     /**
+     * Set keys option value.
+     *
+     * @param  bool|array  $value
+     * @return $this
+     * @see https://datatables.net/reference/option/keys
+     */
+    public function keys(bool|array $value = true): static
+    {
+        $this->attributes['keys'] = $value;
+
+        return $this;
+    }
+
+    /**
      * Set keys blurable option value.
      *
      * @param  bool  $value
@@ -21,18 +35,6 @@ trait KeyTable
     public function keysBlurable(bool $value = true): static
     {
         return $this->keys(['blurable' => $value]);
-    }
-
-    /**
-     * Set keys option value.
-     *
-     * @param  array|bool  $value
-     * @return $this
-     * @see https://datatables.net/reference/option/keys
-     */
-    public function keys(array|bool $value = true): static
-    {
-        return $this->setPluginAttribute('keys', $value);
     }
 
     /**
@@ -146,11 +148,11 @@ trait KeyTable
     /**
      * Set key's keys option value.
      *
-     * @param  array|null  $value
+     * @param  array|string  $value
      * @return $this
      * @see https://datatables.net/reference/option/keys.keys
      */
-    public function keysKeys(array $value = null): static
+    public function keysKeys(array|string $value): static
     {
         return $this->keys(['keys' => $value]);
     }
@@ -165,18 +167,5 @@ trait KeyTable
     public function keysTabIndex(int $value): static
     {
         return $this->keys(['tabIndex' => $value]);
-    }
-
-    /**
-     * @param  string|null  $key
-     * @return mixed
-     */
-    public function getKeys(string $key = null): mixed
-    {
-        if (is_null($key)) {
-            return $this->attributes['keys'] ?? true;
-        }
-
-        return $this->attributes['keys'][$key] ?? false;
     }
 }
